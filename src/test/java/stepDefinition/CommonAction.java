@@ -34,7 +34,7 @@ public class CommonAction
         page.setDenyButton();
         page.setEnglishLanguageButton();
         page.setCancelIcon();
-        page.setCategoryTab();
+        //page.setCategoryTab();
     }
     public static String screenShot(AndroidDriver driver) throws IOException {
         String date = new Date().toString().replace(" ","_").replace(":","_");

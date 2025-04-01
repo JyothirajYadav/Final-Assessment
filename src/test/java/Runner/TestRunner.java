@@ -8,8 +8,14 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/feature",
         dryRun = false,
-        tags="@Kannada or @Bengali",
+        tags="@System",
         glue = "stepDefinition"
+//        plugin = {
+//                "html:test-output/cucumber-reports/html-report.html",
+////                "junit:test-output/cucumber-reports/cucumber.xml",
+////                "json:test-output/cucumber-reports/json-report.json",
+//                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+//                 }
 
                  )
 

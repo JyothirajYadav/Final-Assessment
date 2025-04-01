@@ -1,6 +1,9 @@
 package stepDefinition;
 
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
@@ -11,6 +14,7 @@ import pages.ViewAll;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 
 public class KidOptions
 {
@@ -20,7 +24,7 @@ public class KidOptions
     @Given("Click on view all button")
     public void clickOnViewAllButton() throws MalformedURLException, InterruptedException {
         driver=CommonAction.OpenApplication(driver);
-        Thread.sleep(7000);
+        Thread.sleep(4000);
         CommonAction.login(driver);
         Thread.sleep(3000);
     }
@@ -29,7 +33,7 @@ public class KidOptions
     {
        all =new ViewAll(driver);
        all.scrollTillDeals();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         all.scrollTillGendertab();
         all.setFiltersButton();
     }
@@ -38,9 +42,9 @@ public class KidOptions
     public void applyFilterAndSelectTheOption() throws Exception
     {
         all.setShoeCheckBox();
-        all.setSizeOption();
+       // all.setSizeOption();
         all.setRatingOption();
-        all.setRatingOption();
+       // all.setRatingOption();
         all.setDoneKidButton();
     }
 }

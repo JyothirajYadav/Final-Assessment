@@ -1,12 +1,17 @@
 package pages;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
+
+import java.time.Duration;
 
 public class ViewAll
 {
@@ -23,7 +28,7 @@ public class ViewAll
     private WebElement doneButton;
     @AndroidFindBy(xpath = "//android.widget.CheckBox[@text=\"Shoes\"]")
     private WebElement shoeCheckBox;
-    @AndroidFindBy(xpath = "(//android.widget.TextView[@text=\"Size\"])[1]")
+    @AndroidFindBy(xpath = "//android.widget.LinearLayout[@content-desc=\"Size\"]")
     private WebElement sizeOption;
     @AndroidFindBy(xpath = "//android.widget.CheckBox[@text=\"2-5 Years\"]")
     private WebElement sizeCheckBox;
@@ -50,10 +55,18 @@ public class ViewAll
     public void scrollTillDeals() throws Exception
     {
         Thread.sleep(2000);
-        //driver.findElements(new AppiumBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"Gender\"))"));
-        Thread.sleep(3000);
+//        System.out.println("Before scrolling");
+//        driver.findElements(new AppiumBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"Kids\"))"));
+//        System.out.println("After scrolling");
+        TouchAction touchAction = new TouchAction(driver);
+        touchAction.press(PointOption.point(0, driver.manage().window().getSize().height / 2))
+                .waitAction(WaitOptions.waitOptions(Duration.ofMillis(1000)))
+                .moveTo(PointOption.point(0, driver.manage().window().getSize().height / 4))
+                .release()
+                .perform();
+        Thread.sleep(1000);
         dailyDealsText.click();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
     }
     public void scrollTillGendertab() throws InterruptedException {
         driver.findElement(new AppiumBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"Gender\"))"));
@@ -78,7 +91,8 @@ public class ViewAll
     }
     public void setRatingOption() throws InterruptedException
     {
-        ratingOption.click();Thread.sleep(2000);
+        Thread.sleep(500);
+        ratingOption.click();Thread.sleep(1000);
         rating3_5Checkbox.click();
     }
     public void setDoneKidButton()

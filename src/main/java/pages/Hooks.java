@@ -1,5 +1,6 @@
 package pages;
 import Utils.ConfigReader;
+import Utils.ExtentReader;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.markuputils.ExtentColor;
@@ -28,46 +29,26 @@ public class Hooks {
     @Before
     public void setUp() throws MalformedURLException
     {
-        System.out.println("Opening th Application");
-        extentSparkReporter = new ExtentSparkReporter("D:\\Training\\MeeshoApp\\src\\ExtentReports\\report.html");
-        extentSparkReporter.config().setDocumentTitle("Appium Report");
-        extentSparkReporter.config().setReportName("Meesho report");
-        extentSparkReporter.config().setTheme(Theme.DARK);
-
-        extentReports = new ExtentReports();
-        extentReports.attachReporter(extentSparkReporter);
-        extentReports.setSystemInfo("Company Name", "Qualitrix Technologies");
-        extentReports.setSystemInfo("Environment", "QA");
-        extentReports.setSystemInfo("Tester Name", "Max Verstappen");
-    }
-    @BeforeStep
-    public void beforeStep(Scenario scenario)
-    {
-        extentTest = extentReports.createTest(scenario.getName());
+        ExtentReader.getInstance();
     }
 
     @AfterStep(order = 1)
     public void addScreenshot(Scenario scenario) throws IOException
     {
-        if (scenario.getStatus()==Status.PASSED)
+        if (scenario.isFailed())
         {
-            extentTest.log(com.aventstack.extentreports.Status.PASS, MarkupHelper.createLabel(scenario.getName()+" is Passed", ExtentColor.GREEN));
-        }
-        else if (scenario.getStatus()==Status.FAILED)
+            byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot, "image/png", "Screenshot on failure");
+            ExtentReader.getInstance().createTest(scenario.getName()).fail("Step failed: " + scenario.getName());
+        } else
         {
-            extentTest.log(com.aventstack.extentreports.Status.PASS, MarkupHelper.createLabel(scenario.getName()+" is Failed", ExtentColor.RED));
-            extentTest.addScreenCaptureFromPath(String.valueOf(driver));
-        }
-        else if(scenario.getStatus()==Status.SKIPPED)
-        {
-            extentTest.log(com.aventstack.extentreports.Status.PASS, MarkupHelper.createLabel(scenario.getName()+" is Skipped", ExtentColor.BLUE));
+            // Log success in the Extent report
+            ExtentReader.getInstance().createTest(scenario.getName()).pass("Step passed: " + scenario.getName());
         }
     }
     @After
     public void tearDown()
     {
-        System.out.println("Closing the application");
-        extentReports.flush();
-
+        ExtentReader.getInstance().flush();
     }
 }
