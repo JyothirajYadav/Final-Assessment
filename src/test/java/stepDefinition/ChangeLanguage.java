@@ -1,6 +1,7 @@
 package stepDefinition;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -63,4 +64,36 @@ public class ChangeLanguage
       CommonAction.tearDown(driver);
     }
 
+    @Given("Land on Home page")
+    public void landOnHomePage() throws MalformedURLException, InterruptedException {
+        driver=CommonAction.OpenApplication(driver);
+        Thread.sleep(4000);
+        page = new HomePage(driver);
+        page.setDenyButton();Thread.sleep(3000);
+        page.setEnglishLanguageButton();Thread.sleep(3000);
+        page.setCancelIcon();Thread.sleep(3000);
+    }
+
+    @When("Click on Account tab")
+    public void clickOnAccountTab() throws InterruptedException {
+        accountsTab = new AccountsTab(driver);
+        Thread.sleep(3000);
+    }
+
+    @And("Click on Change Language button")
+    public void clickOnChangeLanguageButton() throws InterruptedException {
+        accountsTab.setChangeLanguageButton();Thread.sleep(3000);
+    }
+
+    @And("Change Language to Bengali")
+    public void changeLanguageToBengali() throws InterruptedException {
+        accountsTab.setBengaliButton();Thread.sleep(3000);
+    }
+
+    @And("Change back to English")
+    public void changeBackToEnglish() throws InterruptedException {
+        accountsTab.setChangeLanguageButton();Thread.sleep(2000);
+        accountsTab.setEnglishButton();
+        Thread.sleep(2000);
+    }
 }
